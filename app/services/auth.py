@@ -7,13 +7,15 @@ from app.schemas.user import UserCreate
 
 
 class AuthService:
-    """Authentication service placeholder — extend with taxi-specific logic later."""
-
     def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
     async def get_user_by_email(self, email: str) -> User | None:
         result = await self.db.execute(select(User).where(User.email == email))
+        return result.scalar_one_or_none()
+
+    async def get_user_by_id(self, user_id: int) -> User | None:
+        result = await self.db.execute(select(User).where(User.id == user_id))
         return result.scalar_one_or_none()
 
     async def authenticate(self, email: str, password: str) -> User | None:
@@ -26,9 +28,11 @@ class AuthService:
         user = User(
             email=user_in.email,
             hashed_password=get_password_hash(user_in.password),
+            full_name=user_in.full_name,
+            phone=user_in.phone,
+            role=user_in.role,
         )
         self.db.add(user)
         await self.db.commit()
         await self.db.refresh(user)
         return user
-

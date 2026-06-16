@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.core.config import get_settings
 from app.db.base import Base
-from app.models import User  # noqa: F401 — register models for autogenerate
+from app.models import Order, User  # noqa: F401 — register models
 
 config = context.config
 
