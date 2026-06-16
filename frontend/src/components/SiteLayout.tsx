@@ -1,10 +1,13 @@
 import { NavLink, Outlet } from "react-router-dom";
-import YandexMap from "./YandexMap";
+import { MapProvider, useMapContext } from "../mapContext";
+import MapView from "./MapView";
 
 export const PHONE = "+7 (900) 000-00-00";
 export const PHONE_HREF = "tel:+79000000000";
 
-export default function SiteLayout() {
+function SiteLayoutInner() {
+  const { setMap } = useMapContext();
+
   return (
     <div className="site">
       <header className="topbar">
@@ -28,10 +31,10 @@ export default function SiteLayout() {
 
       <div className="site__stage">
         <div className="site__map">
-          <YandexMap
+          <MapView
             className="map site__map-canvas"
-            zoom={11}
-            controls={["zoomControl"]}
+            zoom={5}
+            onReady={setMap}
           />
         </div>
         <div className="site__overlay">
@@ -39,5 +42,13 @@ export default function SiteLayout() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SiteLayout() {
+  return (
+    <MapProvider>
+      <SiteLayoutInner />
+    </MapProvider>
   );
 }
