@@ -32,4 +32,3 @@ class AuthService:
         await self.db.refresh(user)
         return user
 
-    print("dadaadad")
