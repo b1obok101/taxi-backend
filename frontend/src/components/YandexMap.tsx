@@ -6,6 +6,7 @@ interface YandexMapProps {
   zoom?: number;
   className?: string;
   controls?: string[];
+  onReady?: (ymaps: any, map: any) => void;
 }
 
 export default function YandexMap({
@@ -13,6 +14,7 @@ export default function YandexMap({
   zoom = 11,
   className = "map",
   controls = ["zoomControl", "geolocationControl"],
+  onReady,
 }: YandexMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
@@ -36,6 +38,7 @@ export default function YandexMap({
           zoom,
           controls,
         });
+        onReady?.(ymaps, map);
       })
       .catch(() => setFailed(true));
 
