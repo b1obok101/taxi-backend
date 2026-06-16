@@ -34,6 +34,14 @@ class Settings(BaseSettings):
 
     cors_origins: str = "http://localhost:3000"
 
+    # Admin bootstrap (создаётся при старте, если ещё нет)
+    admin_email: str = "admin@taxi.com"
+    admin_password: str = "admin123"
+
+    # Telegram notifications (опционально)
+    telegram_bot_token: str | None = None
+    telegram_chat_id: str | None = None
+
     @field_validator("database_url", mode="before")
     @classmethod
     def assemble_db_connection(cls, value: str | None, info) -> str:

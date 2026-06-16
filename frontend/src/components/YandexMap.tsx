@@ -4,11 +4,15 @@ import { isYandexEnabled, loadYandexMaps } from "../yandex";
 interface YandexMapProps {
   center?: [number, number];
   zoom?: number;
+  className?: string;
+  controls?: string[];
 }
 
 export default function YandexMap({
   center = [55.751244, 37.618423],
   zoom = 11,
+  className = "map",
+  controls = ["zoomControl", "geolocationControl"],
 }: YandexMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
@@ -30,7 +34,7 @@ export default function YandexMap({
         map = new ymaps.Map(containerRef.current, {
           center,
           zoom,
-          controls: ["zoomControl", "geolocationControl"],
+          controls,
         });
       })
       .catch(() => setFailed(true));
@@ -41,11 +45,12 @@ export default function YandexMap({
         map.destroy();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [center, zoom]);
 
   if (failed) {
     return (
-      <div className="map-placeholder">
+      <div className={`map-placeholder ${className !== "map" ? className : ""}`}>
         <div>
           <strong>Карта недоступна</strong>
           <p>Укажите ключ Яндекс.Карт в переменной VITE_YANDEX_API_KEY</p>
@@ -54,5 +59,5 @@ export default function YandexMap({
     );
   }
 
-  return <div className="map" ref={containerRef} />;
+  return <div className={className} ref={containerRef} />;
 }
