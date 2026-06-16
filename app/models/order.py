@@ -1,4 +1,4 @@
-from sqlalchemy import Enum, String, Text
+from sqlalchemy import Enum, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import BaseModel
@@ -13,6 +13,8 @@ class Order(BaseModel):
     customer_phone: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     pickup_address: Mapped[str] = mapped_column(String(512), nullable=False)
     dropoff_address: Mapped[str] = mapped_column(String(512), nullable=False)
+    tariff: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    price_estimate: Mapped[int | None] = mapped_column(Integer, nullable=True)
     scheduled_time: Mapped[str | None] = mapped_column(String(64), nullable=True)
     comment: Mapped[str | None] = mapped_column(Text, nullable=True)
     status: Mapped[OrderStatus] = mapped_column(

@@ -10,6 +10,8 @@ class OrderCreate(BaseModel):
     customer_phone: str = Field(min_length=5, max_length=32)
     pickup_address: str = Field(min_length=3, max_length=512)
     dropoff_address: str = Field(min_length=3, max_length=512)
+    tariff: str | None = Field(default=None, max_length=32)
+    price_estimate: int | None = Field(default=None, ge=0)
     scheduled_time: str | None = Field(default=None, max_length=64)
     comment: str | None = None
 
@@ -26,6 +28,8 @@ class OrderRead(BaseModel):
     customer_phone: str
     pickup_address: str
     dropoff_address: str
+    tariff: str | None
+    price_estimate: int | None
     scheduled_time: str | None
     comment: str | None
     status: OrderStatus
